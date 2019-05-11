@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark"
+    android:layout_marginTop="@dimen/item_margin_default"
+    android:layout_marginStart="@dimen/item_margin_default"
+    android:layout_marginEnd="@dimen/item_margin_default"
+    android:elevation="@dimen/add_button_elevation">
+
+    <TextView
+        android:id="@+id/addBtnTxtView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/item_margin_small"
+        android:gravity="center"
+        android:textColor="@color/colorPrimaryLight"
+        android:textSize="@dimen/item_txt_size_big"
+        tools:text="Add a Task(sample)"/>
+</LinearLayout>
