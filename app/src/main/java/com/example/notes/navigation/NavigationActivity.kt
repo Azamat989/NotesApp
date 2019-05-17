@@ -2,17 +2,14 @@ package com.example.notes.navigation
 
 import android.content.Intent
 import android.os.Bundle
-
-import com.google.android.material.bottomnavigation.BottomNavigationView
-
-import androidx.appcompat.app.AppCompatActivity
-
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.notes.create.CreateActivity
 import com.example.notes.R
-import com.example.notes.tasks.TasksListFragment
+import com.example.notes.create.CreateActivity
 import com.example.notes.notes.NotesListFragment
+import com.example.notes.tasks.TasksListFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_navigation.*
 
 class NavigationActivity : AppCompatActivity(), TasksListFragment.TouchActionDelegate, NotesListFragment.TouchActionDelegate {

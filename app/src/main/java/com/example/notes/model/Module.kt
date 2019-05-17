@@ -1,6 +1,6 @@
 package com.example.notes.model
 
-data class Task @JvmOverloads constructor (
+data class Task @JvmOverloads constructor(
         var title: String,
         val todos: MutableList<Todo> = mutableListOf(),
         var tag: Tag? = null
@@ -12,7 +12,7 @@ data class Todo(
 )
 
 data class Note @JvmOverloads constructor(
-        var descritpion: String,
+        var description: String,
         var tag: Tag? = null
 )
 

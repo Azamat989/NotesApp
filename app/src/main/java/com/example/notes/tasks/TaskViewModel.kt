@@ -1,18 +1,27 @@
 package com.example.notes.tasks
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.notes.foundations.ApplicationScope.scope
 import com.example.notes.model.Task
-import com.example.notes.model.Todo
+import toothpick.Toothpick
+import javax.inject.Inject
 
-class TaskViewModel: ViewModel() {
+class TaskViewModel : ViewModel(), TaskListViewContract {
 
-    fun getFakeData(): List<Task> = mutableListOf(
-                Task("Testing One!", mutableListOf(
-                        Todo("Should to do ONE!"),
-                        Todo("Should to do TWO!")
-                )),
-                Task("Testing Two!", mutableListOf(
-                        Todo("Should to do ONE!"),
-                        Todo("Should to do TWO!")
-                )))
+    @Inject
+    lateinit var model: ITaskModel
+
+    private val _taskListLiveData: MutableLiveData<MutableList<Task>> = MutableLiveData()
+    val taskListLiveData: LiveData<MutableList<Task>> = _taskListLiveData
+
+    init {
+        Toothpick.inject(this, scope)
+        _taskListLiveData.postValue(model.getFakeData())
+    }
+
+    override fun onTodoUpdate(taskIndex: Int, todoIndex: Int, isComplete: Boolean) {
+        _taskListLiveData.value?.get(taskIndex)?.todos?.get(todoIndex)?.isComplete = isComplete
+    }
 }

@@ -6,13 +6,15 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.notes.model.Note
 import kotlinx.android.synthetic.main.item_note.view.*
 
-class NoteView @JvmOverloads constructor (
+class NoteView @JvmOverloads constructor(
         context: Context,
         attrb: AttributeSet? = null,
         defStyleAttr: Int = 1
 ) : ConstraintLayout(context, attrb, defStyleAttr) {
 
     fun initView(note: Note) {
-        noteDescription.text = note.descritpion
+        noteDescription.text = note.description
     }
+
+
 }

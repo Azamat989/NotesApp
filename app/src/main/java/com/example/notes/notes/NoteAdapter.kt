@@ -12,9 +12,9 @@ import com.example.notes.views.NoteView
 import kotlinx.android.synthetic.main.item_add_button.view.*
 
 class NoteAdapter(
-        notesList: List<Note> = mutableListOf(),
-        val touchActoinDelegate: NotesListFragment.TouchActionDelegate
-): BaseRecyclerAdapter<Note>(notesList) {
+        notesList: MutableList<Note> = mutableListOf(),
+        val touchActionDelegate: NotesListFragment.TouchActionDelegate
+) : BaseRecyclerAdapter<Note>(notesList) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
             if (viewType == TYPE_ADD_BUTTON) {
@@ -23,19 +23,19 @@ class NoteAdapter(
                 NoteViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false))
             }
 
-    class NoteViewHolder(view: View): BaseViewHolder<Note>(view) {
-        override fun onBind(data: Note) {
+    inner class NoteViewHolder(view: View) : BaseViewHolder<Note>(view) {
+        override fun onBind(data: Note, listIndex: Int) {
             (view as NoteView).initView(data)
         }
     }
 
-    inner class AddButtonViewHolder(view: View): BaseRecyclerAdapter.AddButtonViewHolder(view) {
-         override fun onBind(data: Unit) {
+    inner class AddButtonViewHolder(view: View) : BaseRecyclerAdapter.AddButtonViewHolder(view) {
+        override fun onBind(data: Unit, listIndex: Int) {
             view.addBtnTxtView.text = view.context.getText(R.string.add_note_button)
 
-             view.setOnClickListener {
-                 touchActoinDelegate.onAddButtonClicked(NavigationActivity.FRAGMENT_VALUE_NOTE)
-             }
+            view.setOnClickListener {
+                touchActionDelegate.onAddButtonClicked(NavigationActivity.FRAGMENT_VALUE_NOTE)
+            }
         }
     }
 

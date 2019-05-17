@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/noteDescription"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/simple_item_view_height"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="@dimen/item_margin_default"
