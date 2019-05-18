@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.notes.views.CreateTodoView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imgTodoCheckbox"
+        android:layout_width="@dimen/item_todo_checkbox_default"
+        android:layout_height="@dimen/item_todo_checkbox_default"
+        android:layout_marginStart="@dimen/item_margin_small"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtTodoDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/item_margin_small"
+        android:layout_marginTop="@dimen/item_margin_small"
+        android:layout_marginEnd="@dimen/item_margin_small"
+        android:hint="@string/create_todo_hint"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgTodoCheckbox"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</com.example.notes.views.CreateTodoView>

@@ -7,6 +7,7 @@
     <dimen name="item_margin_default">16dp</dimen>
     <dimen name="item_margin_small">8dp</dimen>
     <dimen name="item_txt_size_big">26sp</dimen>
+    <dimen name="item_todo_checkbox_default">32dp</dimen>
 
     <dimen name="add_button_elevation">8dp</dimen>
 </resources>

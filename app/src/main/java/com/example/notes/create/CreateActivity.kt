@@ -26,7 +26,6 @@ class CreateActivity : AppCompatActivity(), CreateNoteFragment.OnFragmentInterac
             when {
                 this == NavigationActivity.FRAGMENT_VALUE_NOTE -> createFragment(CreateNoteFragment.newInstance())
                 this == NavigationActivity.FRAGMENT_VALUE_TASK -> createFragment(CreateTaskFragment.newInstance())
-                else -> "Something goes wrong!"
             }
         }
     }
