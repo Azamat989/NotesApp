@@ -39,7 +39,23 @@ class CreateActivity : AppCompatActivity(), CreateNoteFragment.OnFragmentInterac
 
         when (item?.itemId) {
 
-            R.id.saveItem -> Toast.makeText(this, "Save is clicked", Toast.LENGTH_LONG).show()
+            R.id.saveItem -> {
+                supportFragmentManager.findFragmentById(R.id.fragmentHolder).run {
+
+                    if (this is CreateTaskFragment) {
+                        this.saveTask { success ->
+                            if(success) {
+                                this@CreateActivity.supportFinishAfterTransition()
+                            } else {
+                                Toast.makeText(this@CreateActivity, getString(R.string.toast_error_saving), Toast.LENGTH_LONG).show()
+                            }
+
+                        }
+                    } else if (this is CreateNoteFragment) {
+
+                    }
+                }
+            }
         }
 
         return super.onOptionsItemSelected(item)

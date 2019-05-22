@@ -1,12 +1,16 @@
 package com.example.notes.tasks
 
+import android.util.Log
 import com.example.notes.model.Task
 import com.example.notes.model.Todo
 import javax.inject.Inject
 
 class TaskLocalModel @Inject constructor(): ITaskModel {
+
     override fun addTask(task: Task, callback: SuccessCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        Log.d("AddTask", "Hello")
+        callback.invoke(true)
     }
 
     override fun retrieveTask(): Task {

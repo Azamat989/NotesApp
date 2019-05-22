@@ -13,6 +13,8 @@
 
     <string name="add_task_button">Add new task</string>
     <string name="add_note_button">Add new note</string>
+    
+    <string name="toast_error_saving">Error! Could not save.</string>
 
     <string name="create_task_hint">Type task title here &#8230;</string>
     <string name="create_todo_hint">Type todo description here &#8230;</string>

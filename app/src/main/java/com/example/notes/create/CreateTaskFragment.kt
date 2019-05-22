@@ -8,19 +8,35 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 
 import com.example.notes.R
+import com.example.notes.foundations.ApplicationScope
+import com.example.notes.foundations.NullFieldChecker
 import com.example.notes.foundations.StateChangeTextWatcher
+import com.example.notes.model.Task
 import com.example.notes.model.Todo
-import com.example.notes.views.CreateTodoView
+import com.example.notes.tasks.TaskLocalModel
 import kotlinx.android.synthetic.main.fragment_create_task.*
+import kotlinx.android.synthetic.main.item_task.view.*
 import kotlinx.android.synthetic.main.view_create_task.view.*
 import kotlinx.android.synthetic.main.view_create_todo.view.*
+import toothpick.Toothpick
+import javax.inject.Inject
+
+private const val MAX_TODO_ADDED = 8
 
 class CreateTaskFragment : Fragment() {
 
-    private var listener: OnFragmentInteractionListener? = null
+    @Inject
+    lateinit var model: TaskLocalModel
+
+    private var listener: CreateNoteFragment.OnFragmentInteractionListener? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        Toothpick.inject(this, ApplicationScope.scope)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -44,35 +60,78 @@ class CreateTaskFragment : Fragment() {
 
     }
 
-    private fun addTodoView() {
+    private fun isTaskEmpty() : Boolean = (createTaskView.edtTaskTitle.editableText.isNullOrEmpty())
 
-        Toast.makeText(context, "Add Todo View", Toast.LENGTH_LONG).show()
-        val view = LayoutInflater.from(context).inflate(R.layout.view_create_todo, taskTodoContainerView, false) as CreateTodoView
+    fun saveTask(callback: (Boolean) -> Unit) {
 
-        view.edtTodoDescription.addTextChangedListener(object : StateChangeTextWatcher() {
-            override fun afterTextChanged(s: Editable?) {
+        createTask()?.let {
+            model.addTask(it) {
+                //assume model always work
+                callback.invoke(true)
+            }
+        } ?: callback.invoke(false)
+    }
 
-                if (!s.isNullOrEmpty() && previousValue.isNullOrEmpty()) {
-                    addTodoView()
-                } else if (!previousValue.isNullOrEmpty() && s.isNullOrEmpty()) {
-                    removeTodoView(view)
+    private fun createTask() : Task? {
+
+        if (!isTaskEmpty()) {
+
+            taskTodoContainerView.run {
+
+                lateinit var taskTitle: String
+                var todoDescription: String?
+                val todoList: MutableList<Todo> = mutableListOf()
+                for (i in 0 until childCount + 1) {
+
+                    if (i == 0) {
+
+                        taskTitle = getChildAt(i).taskTitle.editableText.toString()
+
+                    } else if (getChildAt(i).edtTodoDescription.editableText.toString().isNotEmpty()) {
+
+                        todoDescription = getChildAt(i).edtTodoDescription.editableText.toString()
+                        todoList.add(Todo(todoDescription))
+                    }
                 }
 
-                super.afterTextChanged(s)
+                return  Task(taskTitle, todoList)
             }
-        })
-        Toast.makeText(context, "ADD T ODO  VIEW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show()
-        taskTodoContainerView.addView(view)
+
+        } else {
+            return null
+        }
     }
 
-    private fun removeTodoView(view: View) {
 
-        taskTodoContainerView.removeView(view)
+    private fun addTodoView() {
+
+        if (canAddToDo()) {
+
+            val view = LayoutInflater.from(context).inflate(R.layout.view_create_todo, taskTodoContainerView, false).apply {
+
+                edtTodoDescription.addTextChangedListener(object : StateChangeTextWatcher() {
+                    override fun afterTextChanged(s: Editable?) {
+
+                        if (!s.isNullOrEmpty() && previousValue.isNullOrEmpty()) {
+                            addTodoView()
+                        } else if (!previousValue.isNullOrEmpty() && s.isNullOrEmpty()) {
+                            taskTodoContainerView.removeView(this@apply)
+                        }
+
+                        super.afterTextChanged(s)
+                    }
+                })
+            }
+            taskTodoContainerView.addView(view)
+        }
     }
+
+    private fun canAddToDo() : Boolean = (taskTodoContainerView.childCount < MAX_TODO_ADDED + 1) &&
+                    !(taskTodoContainerView.getChildAt(taskTodoContainerView.childCount - 1) as NullFieldChecker).isFieldNull()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+        if (context is CreateNoteFragment.OnFragmentInteractionListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
@@ -92,3 +151,4 @@ class CreateTaskFragment : Fragment() {
         fun newInstance() = CreateTaskFragment()
     }
 }
+

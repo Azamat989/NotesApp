@@ -9,6 +9,7 @@
 
     <ImageView
         android:id="@+id/imgTodoCheckbox"
+        android:src="@drawable/ic_add_black_24dp"
         android:layout_width="@dimen/item_todo_checkbox_default"
         android:layout_height="@dimen/item_todo_checkbox_default"
         android:layout_marginStart="@dimen/item_margin_small"
