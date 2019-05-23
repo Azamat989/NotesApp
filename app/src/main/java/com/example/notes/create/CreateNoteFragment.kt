@@ -9,15 +9,46 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.notes.R
+import com.example.notes.foundations.ApplicationScope
+import com.example.notes.foundations.NullFieldChecker
+import com.example.notes.model.Note
+import com.example.notes.notes.INoteModel
+import kotlinx.android.synthetic.main.fragment_create_note.*
+import toothpick.Toothpick
+import javax.inject.Inject
 
-class CreateNoteFragment : Fragment() {
+class CreateNoteFragment : Fragment(), NullFieldChecker {
+
+    @Inject
+    lateinit var model: INoteModel
 
     private var listener: OnFragmentInteractionListener? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        Toothpick.inject(this, ApplicationScope.scope)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_note, container, false)
+    }
+
+    fun saveNote(callback: (Boolean) -> Unit) {
+
+        createNote()?.let {
+            model.addNote(it) {
+                callback.invoke(true)
+            }
+        } ?: callback.invoke(false)
+    }
+
+    private fun createNote() : Note? = if (!isFieldNull()) {
+        Note(edtNoteText.editableText.toString())
+    } else {
+        null
     }
 
     override fun onAttach(context: Context) {
@@ -41,4 +72,6 @@ class CreateNoteFragment : Fragment() {
     companion object {
         fun newInstance() = CreateNoteFragment()
     }
+
+    override fun isFieldNull(): Boolean = edtNoteText.editableText.isNullOrEmpty()
 }

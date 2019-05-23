@@ -8,8 +8,7 @@ import javax.inject.Inject
 class TaskLocalModel @Inject constructor(): ITaskModel {
 
     override fun addTask(task: Task, callback: SuccessCallback) {
-
-        Log.d("AddTask", "Hello")
+        Log.d("AddTask", task.toString())
         callback.invoke(true)
     }
 

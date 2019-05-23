@@ -18,4 +18,5 @@
 
     <string name="create_task_hint">Type task title here &#8230;</string>
     <string name="create_todo_hint">Type todo description here &#8230;</string>
+    <string name="create_note_hint">Type note here &#8230;</string>
 </resources>

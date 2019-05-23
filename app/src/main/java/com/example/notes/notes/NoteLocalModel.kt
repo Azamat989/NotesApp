@@ -1,11 +1,14 @@
 package com.example.notes.notes
 
+import android.util.Log
 import com.example.notes.model.Note
 import javax.inject.Inject
 
 class NoteLocalModel @Inject constructor(): INoteModel {
+
     override fun addNote(note: Note, callback: SuccessCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("AddNote", note.toString())
+        callback.invoke(true)
     }
 
     override fun retrieve(): List<Note> {

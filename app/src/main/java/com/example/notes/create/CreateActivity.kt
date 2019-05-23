@@ -52,7 +52,13 @@ class CreateActivity : AppCompatActivity(), CreateNoteFragment.OnFragmentInterac
 
                         }
                     } else if (this is CreateNoteFragment) {
-
+                        this.saveNote { success ->
+                            if (success) {
+                                this@CreateActivity.supportFinishAfterTransition()
+                            }  else {
+                                Toast.makeText(this@CreateActivity, getString(R.string.toast_error_saving), Toast.LENGTH_LONG).show()
+                            }
+                        }
                     }
                 }
             }
