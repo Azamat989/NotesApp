@@ -4,12 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.notes.model.Note
+import com.example.notes.model.Tag
+import com.example.notes.model.TaskEntity
+import com.example.notes.model.Todo
 
 
 const val DATABASE_SCHEMA_VERSION = 1
 const val DB_NAME = "local-db"
 
-@Database (version = DATABASE_SCHEMA_VERSION, entities = [])
+@Database (version = DATABASE_SCHEMA_VERSION, entities = [TaskEntity::class, Todo::class, Tag::class, Note::class])
 abstract class AppDatabase : RoomDatabase() {
 
     //Insert DAO below
