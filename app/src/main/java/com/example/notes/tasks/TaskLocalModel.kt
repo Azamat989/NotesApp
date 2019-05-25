@@ -1,11 +1,15 @@
 package com.example.notes.tasks
 
 import android.util.Log
+import com.example.notes.application.NoteApplication
+import com.example.notes.database.AppDatabase
 import com.example.notes.model.Task
 import com.example.notes.model.Todo
 import javax.inject.Inject
 
 class TaskLocalModel @Inject constructor(): ITaskModel {
+
+    private var databaseClient = AppDatabase.getInstance(NoteApplication.instance.applicationContext)
 
     override fun addTask(task: Task, callback: SuccessCallback) {
         Log.d("AddTask", task.toString())

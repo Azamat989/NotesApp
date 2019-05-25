@@ -1,10 +1,15 @@
 package com.example.notes.notes
 
 import android.util.Log
+import androidx.room.Room
+import com.example.notes.application.NoteApplication
+import com.example.notes.database.AppDatabase
 import com.example.notes.model.Note
 import javax.inject.Inject
 
 class NoteLocalModel @Inject constructor(): INoteModel {
+
+    private var databaseClient = AppDatabase.getInstance(NoteApplication.instance.applicationContext)
 
     override fun addNote(note: Note, callback: SuccessCallback) {
         Log.d("AddNote", note.toString())

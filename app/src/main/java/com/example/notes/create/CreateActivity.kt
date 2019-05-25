@@ -49,7 +49,6 @@ class CreateActivity : AppCompatActivity(), CreateNoteFragment.OnFragmentInterac
                             } else {
                                 Toast.makeText(this@CreateActivity, getString(R.string.toast_error_saving), Toast.LENGTH_LONG).show()
                             }
-
                         }
                     } else if (this is CreateNoteFragment) {
                         this.saveNote { success ->
