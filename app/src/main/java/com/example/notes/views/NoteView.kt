@@ -12,8 +12,11 @@ class NoteView @JvmOverloads constructor(
         defStyleAttr: Int = 1
 ) : ConstraintLayout(context, attrb, defStyleAttr) {
 
-    fun initView(note: Note) {
+    fun initView(note: Note, deleteNoteBtnClicked: () -> Unit) {
         noteDescription.text = note.description
+        imgBtnDeleteNote.setOnClickListener {
+            deleteNoteBtnClicked.invoke()
+        }
     }
 
 

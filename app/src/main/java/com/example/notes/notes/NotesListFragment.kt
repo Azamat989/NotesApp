@@ -43,11 +43,17 @@ class NotesListFragment : Fragment() {
         setupView()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.loadNotes()
+    }
+
     private fun bindViewModel() {
 
         viewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
         viewModel.noteListLiveData.observe(this, Observer { noteList ->
-            // update Adapter
+            // updateTask Adapter
             contentView.updateList(noteList)
         })
     }

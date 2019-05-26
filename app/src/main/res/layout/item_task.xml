@@ -4,18 +4,33 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/simple_item_view_height"
+    android:layout_height="wrap_content"
     xmlns:tool="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/taskTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/item_margin_default"
         android:layout_marginTop="@dimen/item_margin_default"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toStartOf="@+id/imgBtnDeleteTask"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="This is a task title!!!"/>
+        tool:text="This is a task title!!!" />
+
+    <ImageButton
+        android:id="@+id/imgBtnDeleteTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_delete_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/taskTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/taskTitle"
+        android:contentDescription="@string/content_description_for_imgBtnDeleteNote"/>
 
     <LinearLayout
         android:id="@+id/todoContainer"

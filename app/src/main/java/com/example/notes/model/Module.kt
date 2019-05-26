@@ -22,10 +22,11 @@ class Task (
     }
 }
 
-@Entity
+@Entity (tableName = "tasks")
 open class TaskEntity(
         @PrimaryKey
-        val uid: Long? = UUID.randomUUID().leastSignificantBits,
+        var uid: Long = UUID.randomUUID().leastSignificantBits,
+        @ColumnInfo
         var title: String,
         @Embedded
         var tag: Tag? = null

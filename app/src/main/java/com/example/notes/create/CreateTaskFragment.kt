@@ -82,15 +82,16 @@ class CreateTaskFragment : Fragment() {
 
                 lateinit var taskTitle: String
                 val todoList: MutableList<Todo> = mutableListOf()
-                for (i in 0 until this.childCount - 1) {
+                  for (i in 0 until this.childCount) {
 
                     if (i == 0) {
 
                         taskTitle = getChildAt(i).edtTaskTitle.editableText.toString()
 
-                    } else if (!getChildAt(i).edtTodoDescription.editableText?.toString().isNullOrEmpty()) {
+                    } else if (!getChildAt(i).edtTodoDescription.editableText?.toString().isNullOrEmpty())
+                    {
 
-                        todoList.add(Todo(getChildAt(i).edtTodoDescription.editableText.toString()))
+                        todoList.add(Todo(description = getChildAt(i).edtTodoDescription.editableText.toString()))
                     }
                 }
 

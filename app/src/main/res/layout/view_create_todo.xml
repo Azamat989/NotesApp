@@ -25,7 +25,6 @@
         android:layout_marginTop="@dimen/item_margin_small"
         android:layout_marginEnd="@dimen/item_margin_small"
         android:hint="@string/create_todo_hint"
-        android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgTodoCheckbox"
         app:layout_constraintTop_toTopOf="parent" />

@@ -17,6 +17,8 @@ const val DB_NAME = "local-db"
 abstract class AppDatabase : RoomDatabase() {
 
     //Insert DAO below
+    abstract fun noteDao() : NoteDao
+    abstract fun taskDao() : TaskDao
 
 
     companion object {
@@ -31,7 +33,9 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         private fun createDatabase(context: Context): AppDatabase? =
-                Room.databaseBuilder(context, AppDatabase::class.java, DB_NAME).build()
+                Room.databaseBuilder(context, AppDatabase::class.java, DB_NAME)
+                        .allowMainThreadQueries()
+                        .build()
 
     }
 

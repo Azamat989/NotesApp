@@ -1,6 +1,5 @@
 package com.example.notes.tasks
 
-import android.util.Log
 import com.example.notes.application.NoteApplication
 import com.example.notes.database.AppDatabase
 import com.example.notes.model.Task
@@ -12,30 +11,32 @@ class TaskLocalModel @Inject constructor(): ITaskModel {
     private var databaseClient = AppDatabase.getInstance(NoteApplication.instance.applicationContext)
 
     override fun addTask(task: Task, callback: SuccessCallback) {
-        Log.d("AddTask", task.toString())
+        databaseClient.taskDao().addTask(task)
+        addTodosInTask(task)
         callback.invoke(true)
     }
 
-    override fun retrieveTask(): Task {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun retrieveTasks(): MutableList<Task> = databaseClient.taskDao().retrieveTasks()
 
     override fun updateTask(task: Task, callback: SuccessCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        databaseClient.taskDao().updateTask(task)
+        callback.invoke(true)
+    }
+
+    override fun updateTodo(todo: Todo, callback: SuccessCallback) {
+        databaseClient.taskDao().updateTodo(todo)
+        callback.invoke(true)
     }
 
     override fun deleteTask(task: Task, callback: SuccessCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        databaseClient.taskDao().deleteTask(task)
+        callback.invoke(true)
     }
 
-    override fun getFakeData(): MutableList<Task> = mutableListOf(
-            Task("Testing One!", mutableListOf(
-                    Todo("Should to do ONE!"),
-                    Todo("Should to do TWO!")
-            )),
-            Task("Testing Two!", mutableListOf(
-                    Todo("Should to do ONE!"),
-                    Todo("Should to do TWO!")
-            )))
+    private fun addTodosInTask(task: Task) {
+        task.todos.forEach {todo ->
+            databaseClient.taskDao().addTodos(todo)
+        }
+    }
 
 }

@@ -1,7 +1,5 @@
 package com.example.notes.notes
 
-import android.util.Log
-import androidx.room.Room
 import com.example.notes.application.NoteApplication
 import com.example.notes.database.AppDatabase
 import com.example.notes.model.Note
@@ -12,24 +10,26 @@ class NoteLocalModel @Inject constructor(): INoteModel {
     private var databaseClient = AppDatabase.getInstance(NoteApplication.instance.applicationContext)
 
     override fun addNote(note: Note, callback: SuccessCallback) {
-        Log.d("AddNote", note.toString())
+        databaseClient.noteDao().addNote(note)
         callback.invoke(true)
     }
 
-    override fun retrieve(): List<Note> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun retrieveNotes(): MutableList<Note> = databaseClient.noteDao().retrieveNotes()
+
 
     override fun updateNote(note: Note, callback: SuccessCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        databaseClient.noteDao().updateNote(note)
+        callback.invoke(true)
     }
 
     override fun deleteNote(note: Note, callback: SuccessCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        databaseClient.noteDao().deleteNote(note)
+        callback.invoke(true)
     }
 
-    override fun getFakeData(): MutableList<Note> = mutableListOf(
-            Note("Note one!"),
-            Note("Note two!"))
+//    override fun getFakeData(): MutableList<Note> = retrieveNotes()
 
+//            mutableListOf(
+//            Note(description = "Note one!"),
+//            Note(description = "Note two!"))
 }
