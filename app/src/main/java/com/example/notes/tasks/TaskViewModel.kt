@@ -22,7 +22,7 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
         loadTasks()
     }
 
-    private fun loadTasks() {
+    fun loadTasks() {
         _taskListLiveData.postValue(model.retrieveTasks())
     }
 

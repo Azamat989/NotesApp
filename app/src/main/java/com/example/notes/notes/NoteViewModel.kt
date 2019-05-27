@@ -26,7 +26,20 @@ class NoteViewModel : ViewModel(), NoteListViewContract {
     }
 
     fun loadNotes() {
-        _noteListLiveData.postValue(model.retrieveNotes())
+
+        model.retrieveNotes {nullableList ->
+            nullableList?.let {
+                _noteListLiveData.postValue(it.toMutableList())
+            }
+        }
+
+//        var listOfNotes: MutableList<Note>
+//        model.retrieveNotes {
+//            if (!it.isNullOrEmpty()) {
+//                listOfNotes = it.toMutableList()
+//                _noteListLiveData.postValue(listOfNotes)
+//            }
+//        }
     }
 
     override fun deleteNote(note: Note) {

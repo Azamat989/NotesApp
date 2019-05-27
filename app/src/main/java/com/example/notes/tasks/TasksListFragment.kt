@@ -41,6 +41,12 @@ class TasksListFragment : Fragment() {
         setContentView()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.loadTasks()
+    }
+
     private fun bindViewModel() {
         viewModel = ViewModelProviders.of(this).get(TaskViewModel::class.java)
         viewModel.taskListLiveData.observe(this, Observer { taskList ->
