@@ -22,6 +22,8 @@ import kotlinx.android.synthetic.main.fragment_create_task.*
 import kotlinx.android.synthetic.main.item_task.view.*
 import kotlinx.android.synthetic.main.view_create_task.view.*
 import kotlinx.android.synthetic.main.view_create_todo.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import toothpick.Toothpick
 import javax.inject.Inject
 
@@ -65,13 +67,13 @@ class CreateTaskFragment : Fragment() {
     private fun isTaskEmpty() : Boolean = taskTodoContainerView.edtTaskTitle.editableText.isNullOrEmpty()
 
     fun saveTask(callback: (Boolean) -> Unit) {
-
-        createTask()?.let {
-            model.addTask(it) {
-                //assume model always work
-                callback.invoke(true)
-            }
-        } ?: callback.invoke(false)
+        GlobalScope.launch {
+            createTask()?.let {task ->
+                model.addTask(task) {success ->
+                    callback.invoke(success)
+                }
+            } ?: callback.invoke(false)
+        }
     }
 
     private fun createTask() : Task? {

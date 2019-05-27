@@ -8,6 +8,8 @@ import com.example.notes.foundations.ApplicationScope.scope
 import com.example.notes.model.Note
 import com.example.notes.tasks.ITaskModel
 import com.example.notes.tasks.TaskLocalModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import toothpick.Toothpick
 import toothpick.config.Module
 import javax.inject.Inject
@@ -27,25 +29,21 @@ class NoteViewModel : ViewModel(), NoteListViewContract {
 
     fun loadNotes() {
 
-        model.retrieveNotes {nullableList ->
-            nullableList?.let {
-                _noteListLiveData.postValue(it.toMutableList())
+        GlobalScope.launch {
+            model.retrieveNotes {nullableList ->
+                nullableList?.let {
+                    _noteListLiveData.postValue(it.toMutableList())
+                }
             }
         }
-
-//        var listOfNotes: MutableList<Note>
-//        model.retrieveNotes {
-//            if (!it.isNullOrEmpty()) {
-//                listOfNotes = it.toMutableList()
-//                _noteListLiveData.postValue(listOfNotes)
-//            }
-//        }
     }
 
     override fun deleteNote(note: Note) {
-        model.deleteNote(note) {
-            if (it) {
-                loadNotes()
+        GlobalScope.launch {
+            model.deleteNote(note) {
+                if (it) {
+                    loadNotes()
+                }
             }
         }
     }

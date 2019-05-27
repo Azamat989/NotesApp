@@ -13,47 +13,39 @@ class NoteLocalModel @Inject constructor(): INoteModel {
 
     private var databaseClient = AppDatabase.getInstance(NoteApplication.instance.applicationContext)
 
-    private fun performOperationWithTimeout(function: () -> Unit, successCallback: SuccessCallback) {
-
-        GlobalScope.launch {
-
-            val job = async {
-                try {
-                    withTimeout(TIMEOUT_DURATION_MILLIS) {
-                        function.invoke()
-                    }
-                } catch (e: Exception) {
-                    successCallback.invoke(false)
+    private suspend fun performOperationWithTimeout(function: () -> Unit, successCallback: SuccessCallback) {
+        val job = GlobalScope.async {
+            try {
+                withTimeout(TIMEOUT_DURATION_MILLIS) {
+                    function.invoke()
                 }
+            } catch (e: Exception) {
+                successCallback.invoke(false)
             }
-
-            job.await()
-            successCallback.invoke(true)
         }
+        job.await()
+        successCallback.invoke(true)
     }
 
-    override fun addNote(note: Note, callback: SuccessCallback) {
+    override suspend fun addNote(note: Note, callback: SuccessCallback) {
         performOperationWithTimeout( { databaseClient.noteDao().addNote(note) }, callback)
     }
 
-    override fun retrieveNotes(callback: (List<Note>?) -> Unit) {
+    override suspend fun retrieveNotes(callback: (List<Note>?) -> Unit) {
 
-        GlobalScope.launch {
-
-            val databaseJob = async {
-                withTimeoutOrNull(TIMEOUT_DURATION_MILLIS) {
-                    databaseClient.noteDao().retrieveNotes()
-                }
+        val databaseJob = GlobalScope.async {
+            withTimeoutOrNull(TIMEOUT_DURATION_MILLIS) {
+                databaseClient.noteDao().retrieveNotes()
             }
-            callback.invoke(databaseJob.await())
         }
+        callback.invoke(databaseJob.await())
     }
 
-    override fun updateNote(note: Note, callback: SuccessCallback) {
+    override suspend fun updateNote(note: Note, callback: SuccessCallback) {
         performOperationWithTimeout({databaseClient.noteDao().updateNote(note)}, callback)
     }
 
-    override fun deleteNote(note: Note, callback: SuccessCallback) {
+    override suspend fun deleteNote(note: Note, callback: SuccessCallback) {
         performOperationWithTimeout( {databaseClient.noteDao().deleteNote(note)}, callback )
     }
 }
